@@ -23,9 +23,6 @@ export default function Navbar() {
               <Link href="/listings" className="text-gray-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">
                 Browse
               </Link>
-              <Link href="/how-it-works" className="text-gray-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">
-                How it Works
-              </Link>
             </div>
           </div>
           <div className="hidden md:flex items-center space-x-4">
