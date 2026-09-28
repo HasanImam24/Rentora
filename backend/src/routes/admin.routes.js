@@ -13,6 +13,7 @@ router.patch('/users/:id/toggle-status', adminController.toggleUserStatus);
 
 router.get('/listings', adminController.getAllListings);
 router.patch('/listings/:id/status', adminController.updateListingStatus);
+router.delete('/listings/:id', adminController.deleteListing);
 
 router.get('/complaints', adminController.getAllComplaints);
 router.patch('/complaints/:id/respond', adminController.respondToComplaint);

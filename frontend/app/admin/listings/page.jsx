@@ -16,7 +16,7 @@ export default function AdminListingsPage() {
     try {
       setLoading(true);
       const res = await admin.getListings();
-      setListings(res.data.data || []);
+      setListings(res.data.data?.listings || []);
     } catch (error) {
       toast.error('Failed to load listings');
     } finally {
@@ -31,10 +31,21 @@ export default function AdminListingsPage() {
   const handleUpdateStatus = async (id, status) => {
     try {
       await admin.updateListingStatus(id, status);
-      toast.success(`Listing ${status}`);
+      toast.success(`Listing ${status.toLowerCase()}`);
       fetchListings();
     } catch (error) {
       toast.error('Failed to update status');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to permanently delete this listing? This action cannot be undone.')) return;
+    try {
+      await admin.deleteListing(id);
+      toast.success('Listing permanently deleted');
+      fetchListings();
+    } catch (error) {
+      toast.error('Failed to delete listing');
     }
   };
 
@@ -48,7 +59,7 @@ export default function AdminListingsPage() {
         </Link>
       )
     },
-    { header: 'Owner', accessor: 'owner', render: (row) => <span className="text-sm">{row.owner?.name}</span> },
+    { header: 'Owner', accessor: 'owner', render: (row) => <span className="text-sm">{row.ownerId?.name || 'Unknown'}</span> },
     { header: 'Category', accessor: 'category', render: (row) => <span className="text-sm">{row.category}</span> },
     { header: 'Status', accessor: 'status', render: (row) => <Badge status={row.status} /> },
     {
@@ -56,11 +67,12 @@ export default function AdminListingsPage() {
       accessor: 'actions',
       render: (row) => (
         <div className="flex gap-2">
-          {row.status === 'active' ? (
-            <Button size="sm" variant="danger" onClick={() => handleUpdateStatus(row._id, 'suspended')}>Suspend</Button>
+          {row.status === 'ACTIVE' ? (
+            <Button size="sm" variant="outline" onClick={() => handleUpdateStatus(row._id, 'SUSPENDED')}>Suspend</Button>
           ) : (
-            <Button size="sm" onClick={() => handleUpdateStatus(row._id, 'active')}>Activate</Button>
+            <Button size="sm" onClick={() => handleUpdateStatus(row._id, 'ACTIVE')}>Activate</Button>
           )}
+          <Button size="sm" variant="danger" onClick={() => handleDelete(row._id)}>Delete</Button>
         </div>
       )
     }

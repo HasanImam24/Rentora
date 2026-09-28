@@ -81,6 +81,26 @@ export const updateListingStatus = async (req, res, next) => {
   }
 };
 
+export const deleteListing = async (req, res, next) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) return sendError(res, 404, 'Listing not found');
+    
+    // Delete images from Cloudinary if they exist
+    if (listing.images && listing.images.length > 0) {
+      const cloudinary = (await import('../config/cloudinary.js')).default;
+      for (const image of listing.images) {
+        if (image.publicId) await cloudinary.uploader.destroy(image.publicId);
+      }
+    }
+    
+    await Listing.findByIdAndDelete(req.params.id);
+    sendSuccess(res, 200, 'Listing permanently deleted successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getAllComplaints = async (req, res, next) => {
   try {
     const result = await complaintService.getAllComplaints(req.query);

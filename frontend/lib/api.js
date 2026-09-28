@@ -85,6 +85,7 @@ export const admin = {
   toggleUserStatus: (id) => api.patch(`/admin/users/${id}/toggle-status`),
   getListings: () => api.get('/admin/listings'),
   updateListingStatus: (id, status) => api.patch(`/admin/listings/${id}/status`, { status }),
+  deleteListing: (id) => api.delete(`/admin/listings/${id}`),
   getComplaints: () => api.get('/admin/complaints'),
   respondToComplaint: (id, data) => api.patch(`/admin/complaints/${id}/respond`, data),
 };
