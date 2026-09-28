@@ -22,12 +22,16 @@ export default function ListingDetailPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [isRentalModalOpen, setIsRentalModalOpen] = useState(false);
   const [buyLoading, setBuyLoading] = useState(false);
+  const [showBuyModal, setShowBuyModal] = useState(false);
+  const [contactPhone, setContactPhone] = useState('');
+  const [deliveryAddress, setDeliveryAddress] = useState('');
 
   useEffect(() => {
     const fetchListing = async () => {
       try {
         const res = await listings.getById(params.id);
-        setListing(res.data.data || res.data);
+        const responseData = res.data.data;
+        setListing(responseData?.listing || responseData);
       } catch (error) {
         toast.error('Listing not found');
         router.push('/listings');
@@ -50,25 +54,40 @@ export default function ListingDetailPage() {
       toast.error('Please login to purchase items');
       return router.push(`/login?redirect=/listings/${listing._id}`);
     }
-    
-    if (window.confirm(`Confirm purchase for ${formatCurrency(listing.salePrice)}?`)) {
-      try {
-        setBuyLoading(true);
-        await orders.create({ listingId: listing._id });
-        toast.success('Purchase successful!');
-        router.push('/dashboard/purchases');
-      } catch (error) {
-        toast.error(error.message || 'Failed to complete purchase');
-      } finally {
-        setBuyLoading(false);
-      }
+    setContactPhone(user.phone || '');
+    setShowBuyModal(true);
+  };
+
+  const confirmPurchase = async () => {
+    if (!contactPhone.trim()) {
+      return toast.error('Please provide a contact phone number');
+    }
+    if (!deliveryAddress.trim()) {
+      return toast.error('Please provide a delivery address');
+    }
+    try {
+      setBuyLoading(true);
+      await orders.create({ listingId: listing._id, phoneNumber: contactPhone, deliveryAddress });
+      toast.success('Purchase request sent! Waiting for seller approval.');
+      setShowBuyModal(false);
+      router.push('/dashboard/purchases');
+    } catch (error) {
+      toast.error(error.message || 'Failed to complete purchase');
+    } finally {
+      setBuyLoading(false);
     }
   };
 
-  const images = listing.images?.length > 0 ? listing.images : [{ url: 'https://images.unsplash.com/photo-1513161455079-7dc1de15ef3e?w=800' }];
+  const images = listing.images?.length > 0 ? listing.images : [{ url: '/no-image.svg' }];
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {listing.status === 'SOLD' && (
+        <div className="mb-6 bg-red-100 border border-red-200 text-red-800 p-4 rounded-lg text-center font-bold text-lg uppercase tracking-wider">
+          SOLD OUT
+        </div>
+      )}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         
         {/* Left Col - Images */}
@@ -205,6 +224,66 @@ export default function ListingDetailPage() {
         onClose={() => setIsRentalModalOpen(false)} 
         listing={listing} 
       />
+
+      {/* COD Purchase Confirmation Modal */}
+      {showBuyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">Confirm Purchase</h3>
+            
+            <div className="bg-gray-50 rounded-lg p-4 mb-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Item</span>
+                <span className="font-medium">{listing.title}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Price</span>
+                <span className="font-bold text-lg text-gray-900">{formatCurrency(listing.salePrice)}</span>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number (For Delivery)</label>
+              <input
+                type="tel"
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="e.g. 01700000000"
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Address</label>
+              <textarea
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Full delivery address"
+                value={deliveryAddress}
+                onChange={(e) => setDeliveryAddress(e.target.value)}
+                rows={3}
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Payment Method</label>
+              <div className="flex items-center p-3 border-2 border-indigo-500 rounded-lg bg-indigo-50">
+                <input type="radio" checked readOnly className="h-4 w-4 text-indigo-600" />
+                <div className="ml-3">
+                  <span className="text-sm font-semibold text-gray-900">💵 Cash on Delivery (COD)</span>
+                  <p className="text-xs text-gray-500">Pay in cash when you receive the item.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <Button variant="secondary" className="flex-1" onClick={() => setShowBuyModal(false)}>Cancel</Button>
+              <Button className="flex-1" loading={buyLoading} onClick={confirmPurchase}>Send Purchase Request</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { listings as listingsApi, rentals as rentalsApi, orders as ordersApi } from '@/lib/api';
 import StatsCard from '@/components/admin/StatsCard';
-import { Package, CalendarDays, ShoppingBag, TrendingUp } from 'lucide-react';
+import { Package, CalendarDays, ShoppingBag, Inbox } from 'lucide-react';
 import Link from 'next/link';
 
 export default function DashboardPage() {
@@ -12,22 +12,43 @@ export default function DashboardPage() {
   const [stats, setStats] = useState({
     myListings: 0,
     activeRentals: 0,
-    purchases: 0
+    purchases: 0,
+    pendingRequests: 0
   });
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [lRes, rRes, oRes] = await Promise.all([
-          listingsApi.getMyListings().catch(() => ({ data: { data: [] } })),
-          rentalsApi.getAll({ role: 'renter' }).catch(() => ({ data: { data: [] } })),
-          ordersApi.getAll().catch(() => ({ data: { data: [] } }))
+        const [lRes, rRes, oRes, recORes, recRRes] = await Promise.all([
+          listingsApi.getMyListings().catch(() => ({ data: { data: { listings: [] } } })),
+          rentalsApi.getMyRentals().catch(() => ({ data: { data: [] } })),
+          ordersApi.getMyOrders().catch(() => ({ data: { data: [] } })),
+          ordersApi.getReceivedOrders().catch(() => ({ data: { data: [] } })),
+          rentalsApi.getReceivedRentals().catch(() => ({ data: { data: [] } }))
         ]);
         
+        const listingsData = lRes.data.data;
+        const listingsArr = Array.isArray(listingsData) ? listingsData : listingsData?.listings || [];
+        
+        const rentalsData = rRes.data.data;
+        const rentalsArr = Array.isArray(rentalsData) ? rentalsData : rentalsData?.rentals || [];
+        
+        const ordersData = oRes.data.data;
+        const ordersArr = Array.isArray(ordersData) ? ordersData : ordersData?.orders || [];
+
+        const recOrdersData = recORes.data.data;
+        const recOrdersArr = Array.isArray(recOrdersData) ? recOrdersData : recOrdersData?.orders || [];
+
+        const recRentalsData = recRRes.data.data;
+        const recRentalsArr = Array.isArray(recRentalsData) ? recRentalsData : recRentalsData?.rentals || [];
+
+        const pendingReqs = recOrdersArr.filter(o => o.status === 'PENDING').length + recRentalsArr.filter(r => r.status === 'PENDING').length;
+
         setStats({
-          myListings: lRes.data.data?.length || 0,
-          activeRentals: rRes.data.data?.filter(r => r.status === 'active' || r.status === 'confirmed').length || 0,
-          purchases: oRes.data.data?.length || 0
+          myListings: listingsArr.length,
+          activeRentals: rentalsArr.filter(r => r.status === 'ACTIVE' || r.status === 'CONFIRMED').length,
+          purchases: ordersArr.length,
+          pendingRequests: pendingReqs
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -45,12 +66,18 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard 
           title="My Listings" 
           value={stats.myListings} 
           icon={Package} 
           color="indigo" 
+        />
+        <StatsCard 
+          title="Pending Requests" 
+          value={stats.pendingRequests} 
+          icon={Inbox} 
+          color="yellow" 
         />
         <StatsCard 
           title="Active Rentals" 

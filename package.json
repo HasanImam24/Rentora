@@ -12,7 +12,8 @@
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:backend": "cd backend && npm start",
     "start:frontend": "cd frontend && npm start",
-    "seed": "cd backend && npm run seed"
+    "seed": "cd backend && npm run seed",
+    "clear-history": "cd backend && npm run clear-history"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

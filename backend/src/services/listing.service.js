@@ -22,8 +22,21 @@ export const getAllListings = async (query) => {
   
   let filter = {};
   if (category) filter.category = category;
-  if (transactionType) filter.transactionType = transactionType;
-  if (status) filter.status = status;
+  if (transactionType) {
+    const type = transactionType.toUpperCase();
+    if (type === 'RENT') {
+      filter.transactionType = { $in: ['RENT', 'RENT_AND_SALE'] };
+    } else if (type === 'SALE') {
+      filter.transactionType = { $in: ['SALE', 'RENT_AND_SALE'] };
+    } else {
+      filter.transactionType = type;
+    }
+  }
+  if (status) {
+    filter.status = status;
+  } else {
+    filter.status = 'ACTIVE';
+  }
   if (search) filter.title = { $regex: search, $options: 'i' };
 
   const skip = (page - 1) * limit;

@@ -18,7 +18,8 @@ export default function MyListingsPage() {
     try {
       setLoading(true);
       const res = await listings.getMyListings();
-      setMyListings(res.data.data || []);
+      const responseData = res.data.data;
+      setMyListings(Array.isArray(responseData) ? responseData : responseData?.listings || []);
     } catch (error) {
       toast.error('Failed to load listings');
     } finally {

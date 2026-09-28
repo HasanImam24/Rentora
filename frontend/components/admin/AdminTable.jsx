@@ -1,6 +1,7 @@
 import React from 'react';
 
-export default function AdminTable({ columns, data, loading, onRowClick }) {
+export default function AdminTable({ columns, data: rawData, loading, onRowClick }) {
+  const data = Array.isArray(rawData) ? rawData : [];
   if (loading) {
     return (
       <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">

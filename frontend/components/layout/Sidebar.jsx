@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Package, CalendarDays, ShoppingBag, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Package, CalendarDays, ShoppingBag, Inbox, AlertTriangle } from 'lucide-react';
 
 const navItems = [
   { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
   { name: 'My Listings', href: '/dashboard/listings', icon: Package },
-  { name: 'Rentals', href: '/dashboard/rentals', icon: CalendarDays },
-  { name: 'Purchases', href: '/dashboard/purchases', icon: ShoppingBag },
+  { name: 'Requests', href: '/dashboard/requests', icon: Inbox },
+  { name: 'My Purchases', href: '/dashboard/purchases', icon: ShoppingBag },
+  { name: 'My Rentals', href: '/dashboard/rentals', icon: CalendarDays },
   { name: 'Complaints', href: '/dashboard/complaints', icon: AlertTriangle },
 ];
 

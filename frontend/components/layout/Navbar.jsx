@@ -17,7 +17,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">RentBuy</span>
+              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">Rentora</span>
             </Link>
             <div className="hidden md:ml-10 md:flex md:space-x-8">
               <Link href="/listings" className="text-gray-600 hover:text-indigo-600 px-3 py-2 text-sm font-medium transition-colors">

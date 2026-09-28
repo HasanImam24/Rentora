@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 
 export const formatCurrency = (amount) => {
-  if (amount === undefined || amount === null) return '$0.00';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(amount);
+  if (amount === undefined || amount === null) return '৳0.00';
+  return '৳' + Number(amount).toLocaleString('en-BD', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 };
 
 export const formatDate = (dateString, formatStr = 'MMM dd, yyyy') => {
@@ -19,9 +19,11 @@ export const getStatusColor = (status) => {
     case 'active':
     case 'completed':
     case 'confirmed':
+    case 'accepted':
     case 'resolved':
       return 'bg-green-100 text-green-800';
     case 'pending':
+    case 'placed':
     case 'open':
       return 'bg-yellow-100 text-yellow-800';
     case 'suspended':

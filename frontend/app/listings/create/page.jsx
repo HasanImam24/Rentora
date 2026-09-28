@@ -178,7 +178,7 @@ export default function CreateListingPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  label="Rental Price ($)"
+                  label="Rental Price (৳)"
                   placeholder="0.00"
                   value={formData.rentalPriceAmount}
                   onChange={handleChange}
@@ -202,7 +202,7 @@ export default function CreateListingPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  label="Security Deposit ($)"
+                  label="Security Deposit (৳)"
                   placeholder="0.00"
                   value={formData.securityDeposit}
                   onChange={handleChange}
@@ -217,7 +217,7 @@ export default function CreateListingPage() {
                   type="number"
                   min="0"
                   step="0.01"
-                  label="Sale Price ($)"
+                  label="Sale Price (৳)"
                   placeholder="0.00"
                   value={formData.salePrice}
                   onChange={handleChange}

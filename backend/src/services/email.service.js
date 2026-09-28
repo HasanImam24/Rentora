@@ -23,7 +23,7 @@ export const sendComplaintNotification = async ({ ticketId, userName, userEmail,
 
   try {
     await transporter.sendMail({
-      from: `RentBuy Platform <${config.smtp.user}>`,
+      from: `Rentora Platform <${config.smtp.user}>`,
       to: config.adminEmail,
       subject: `New Complaint: ${ticketId} - ${subject}`,
       html
@@ -36,7 +36,7 @@ export const sendComplaintNotification = async ({ ticketId, userName, userEmail,
 export const sendStatusUpdate = async ({ to, subject, html }) => {
   try {
     await transporter.sendMail({
-      from: `RentBuy Platform <${config.smtp.user}>`,
+      from: `Rentora Platform <${config.smtp.user}>`,
       to,
       subject,
       html

@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'RentBuy - Rent & Buy Marketplace',
+  title: 'Rentora - Rent & Buy Marketplace',
   description: 'The premier marketplace for renting and buying quality items in your area.',
 };
 

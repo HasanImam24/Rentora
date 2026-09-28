@@ -1,4 +1,4 @@
-# 🏪 RentBuy - Rent & Buy Marketplace
+# 🏪 Rentora - Rent & Buy Marketplace
 
 A full-stack **Rent & Buy** marketplace platform built with **Next.js 14**, **Express.js**, **MongoDB**, and **Cloudinary**.
 

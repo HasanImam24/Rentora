@@ -52,15 +52,25 @@ export const listings = {
 
 export const rentals = {
   create: (data) => api.post('/rentals', data),
-  getAll: (params) => api.get('/rentals', { params }),
+  getMyRentals: () => api.get('/rentals/my'),
+  getReceivedRentals: () => api.get('/rentals/received'),
   getById: (id) => api.get(`/rentals/${id}`),
-  updateStatus: (id, status) => api.patch(`/rentals/${id}/status`, { status }),
+  accept: (id) => api.patch(`/rentals/${id}/accept`),
+  reject: (id) => api.patch(`/rentals/${id}/reject`),
+  cancel: (id) => api.patch(`/rentals/${id}/cancel`),
+  complete: (id) => api.patch(`/rentals/${id}/complete`),
+  getBookedDates: (listingId) => api.get(`/rentals/booked-dates/${listingId}`),
 };
 
 export const orders = {
   create: (data) => api.post('/orders', data),
-  getAll: (params) => api.get('/orders', { params }),
+  getMyOrders: () => api.get('/orders/my'),
+  getReceivedOrders: () => api.get('/orders/received'),
   getById: (id) => api.get(`/orders/${id}`),
+  accept: (id) => api.patch(`/orders/${id}/accept`),
+  reject: (id) => api.patch(`/orders/${id}/reject`),
+  cancel: (id) => api.patch(`/orders/${id}/cancel`),
+  complete: (id) => api.patch(`/orders/${id}/complete`),
 };
 
 export const complaints = {

@@ -80,8 +80,8 @@ export default function ListingsPage() {
               onChange={(e) => setFilters({ ...filters, transactionType: e.target.value })}
             >
               <option value="all">Any Type</option>
-              <option value="rent">For Rent</option>
-              <option value="sale">For Sale</option>
+              <option value="RENT">For Rent</option>
+              <option value="SALE">For Sale</option>
             </select>
           </div>
         </div>

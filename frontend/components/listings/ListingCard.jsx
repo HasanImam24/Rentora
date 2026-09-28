@@ -5,7 +5,7 @@ import { getConditionLabel, formatCurrency } from '@/lib/utils';
 import Badge from '../ui/Badge';
 
 export default function ListingCard({ listing }) {
-  const imageUrl = listing.images?.[0]?.url || 'https://images.unsplash.com/photo-1513161455079-7dc1de15ef3e?w=800&q=80';
+  const imageUrl = listing.images?.[0]?.url || '/no-image.svg';
   
   return (
     <Link href={`/listings/${listing._id}`} className="group block h-full">
@@ -18,14 +18,26 @@ export default function ListingCard({ listing }) {
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
           />
-          <div className="absolute top-2 right-2 flex gap-1">
-            {['RENT', 'RENT_AND_SALE'].includes(listing.transactionType) ? (
-              <Badge status="rented" label="For Rent" className="shadow-sm" />
-            ) : null}
-            {['SALE', 'RENT_AND_SALE'].includes(listing.transactionType) ? (
-              <Badge status="sold" label="For Sale" className="shadow-sm bg-purple-100 text-purple-800" />
-            ) : null}
-          </div>
+          {listing.status === 'SOLD' && (
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+              <span className="text-white text-2xl font-bold uppercase tracking-widest border-2 border-white px-4 py-2 rounded shadow-lg transform -rotate-12">Sold Out</span>
+            </div>
+          )}
+          {listing.status === 'PAUSED' && (
+            <div className="absolute inset-0 bg-gray-900/50 flex items-center justify-center z-10">
+              <span className="text-white text-xl font-bold uppercase tracking-widest border-2 border-white px-4 py-2 rounded shadow-lg">Paused</span>
+            </div>
+          )}
+          {listing.status !== 'SOLD' && listing.status !== 'PAUSED' && (
+            <div className="absolute top-2 right-2 flex gap-1 z-20">
+              {['RENT', 'RENT_AND_SALE'].includes(listing.transactionType) ? (
+                <Badge status="rented" label="For Rent" className="shadow-sm" />
+              ) : null}
+              {['SALE', 'RENT_AND_SALE'].includes(listing.transactionType) ? (
+                <Badge status="sold" label="For Sale" className="shadow-sm bg-purple-100 text-purple-800" />
+              ) : null}
+            </div>
+          )}
         </div>
         <div className="p-4 flex flex-col flex-grow">
           <div className="flex items-start justify-between gap-2 mb-2">

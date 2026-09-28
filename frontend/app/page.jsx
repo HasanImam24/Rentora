@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { ArrowRight, ShieldCheck, Zap, RefreshCw } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export default function HomePage() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-indigo-50 to-white pt-16 pb-32">
-        <div className="absolute inset-y-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight mb-8">
@@ -32,35 +31,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* How Rentora Works Section */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900">How It Works</h2>
-            <p className="mt-4 text-lg text-gray-600">Three simple steps to start earning or saving.</p>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-indigo prose-lg">
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">How Rentora Works</h1>
+          <p className="text-xl text-gray-600 text-center mb-16">
+            Rentora makes renting and buying simple, transparent, and convenient. Whether you want to find something you need or list something you own, everything can be managed from one platform.
+          </p>
+
+          <div className="space-y-12">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">1. Create Your Account</h2>
+              <p className="text-gray-600">Sign up for a Rentora account using your basic information. Once registered, you can browse listings, contact sellers, rent products, make purchases, and manage your activities from your dashboard.</p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">2. Browse Listings</h2>
+              <p className="text-gray-600">Explore products and properties available for <strong className="font-semibold text-gray-900">rent or permanent purchase</strong>. Use categories and listing details to find exactly what you are looking for.</p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">3. Choose What You Need</h2>
+              <p className="text-gray-600">Open a listing to view its photos, description, price, availability, and other important information. Compare your options and select the one that fits your needs.</p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">4. Rent or Buy</h2>
+              <p className="text-gray-600">Choose whether you want to <strong className="font-semibold text-gray-900">rent an item for a specific period</strong> or <strong className="font-semibold text-gray-900">purchase it permanently</strong>. For rentals, select your required dates and review the calculated rental price before confirming.</p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">5. Manage Everything From Your Dashboard</h2>
+              <p className="text-gray-600">Your personal dashboard keeps your activities organized. You can view your rentals, purchases, listings, and complaints in one place.</p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">6. List Your Own Products</h2>
+              <p className="text-gray-600">Have something to rent or sell? Create your own listing, upload images, add the price and details, and make it available to other Rentora users.</p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">7. Get Support</h2>
+              <p className="text-gray-600">If you face a problem or have a complaint, submit it through the complaint system. Our admin team can review and manage complaints to help maintain a reliable marketplace.</p>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <RefreshCw className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">1. Browse & Choose</h3>
-              <p className="text-gray-600">Search thousands of items to rent or buy from trusted members of your community.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Zap className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">2. Quick Request</h3>
-              <p className="text-gray-600">Send a rental request or buy instantly with our secure payment system.</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <ShieldCheck className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-900">3. Safe Exchange</h3>
-              <p className="text-gray-600">Meet up or get it delivered. Every transaction is backed by our safety guarantee.</p>
-            </div>
+
+          <div className="mt-16 pt-10 border-t border-gray-200 text-center">
+            <h3 className="text-2xl font-bold text-indigo-600">Rent. Buy. List. Manage.</h3>
+            <p className="mt-4 text-gray-600 text-lg">Everything you need for a smarter rental and purchase experience — in one platform.</p>
           </div>
         </div>
       </section>

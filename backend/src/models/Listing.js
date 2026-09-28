@@ -14,7 +14,8 @@ const listingSchema = new mongoose.Schema({
   securityDeposit: { type: Number, default: 0 },
   images: [{ url: String, publicId: String }],
   condition: { type: String, enum: ['NEW', 'LIKE_NEW', 'GOOD', 'FAIR'], default: 'GOOD' },
-  status: { type: String, enum: ['ACTIVE', 'RENTED', 'SOLD', 'SUSPENDED'], default: 'ACTIVE' }
+  location: { type: String, default: '' },
+  status: { type: String, enum: ['ACTIVE', 'PAUSED', 'SOLD', 'SUSPENDED'], default: 'ACTIVE' }
 }, { timestamps: true });
 
 listingSchema.index({ category: 1 });
