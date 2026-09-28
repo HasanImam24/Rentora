@@ -22,7 +22,7 @@ export default function AdminComplaintsPage() {
     try {
       setLoading(true);
       const res = await admin.getComplaints();
-      setComplaints(res.data.data || []);
+      setComplaints(res.data.data?.complaints || []);
     } catch (error) {
       toast.error('Failed to load complaints');
     } finally {
@@ -50,7 +50,7 @@ export default function AdminComplaintsPage() {
   };
 
   const columns = [
-    { header: 'User', accessor: 'user', render: (row) => <span className="font-medium text-sm">{row.user?.name}</span> },
+    { header: 'User', accessor: 'user', render: (row) => <span className="font-medium text-sm">{row.userId?.name || 'Unknown'}</span> },
     { header: 'Subject', accessor: 'subject', render: (row) => <span className="text-sm font-semibold">{row.subject}</span> },
     { header: 'Priority', accessor: 'priority', render: (row) => <span className="capitalize">{row.priority}</span> },
     { header: 'Status', accessor: 'status', render: (row) => <Badge status={row.status} /> },
@@ -62,7 +62,7 @@ export default function AdminComplaintsPage() {
         <Button size="sm" variant="outline" onClick={() => {
           setSelectedComplaint(row);
           setResponse(row.adminResponse || '');
-          setStatus(row.status === 'open' ? 'resolved' : row.status);
+          setStatus(row.status === 'OPEN' ? 'RESOLVED' : row.status);
         }}>
           Respond
         </Button>
@@ -102,8 +102,10 @@ export default function AdminComplaintsPage() {
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option value="open">Open</option>
-                <option value="resolved">Resolved</option>
+                <option value="OPEN">Open</option>
+                <option value="UNDER_REVIEW">Under Review</option>
+                <option value="RESOLVED">Resolved</option>
+                <option value="CLOSED">Closed</option>
               </select>
             </div>
             
