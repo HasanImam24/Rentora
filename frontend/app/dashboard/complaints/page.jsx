@@ -27,7 +27,7 @@ export default function MyComplaintsPage() {
     try {
       setLoading(true);
       const res = await complaints.getAll();
-      setData(res.data.data || []);
+      setData(res.data.data?.complaints || []);
     } catch (error) {
       toast.error('Failed to load complaints');
     } finally {
