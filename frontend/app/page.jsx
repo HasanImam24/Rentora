@@ -111,7 +111,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-6">Ready to declutter and earn?</h2>
           <p className="text-xl text-indigo-100 mb-10">List your idle items today and start making money while helping others in your community.</p>
           <Link href="/listings/create">
-            <Button size="lg" className="bg-white text-indigo-600 hover:bg-gray-100 shadow-lg px-10">
+            <Button variant="secondary" size="lg" className="!text-indigo-600 font-bold hover:!bg-indigo-50 shadow-lg px-10">
               Start Listing Now
             </Button>
           </Link>
