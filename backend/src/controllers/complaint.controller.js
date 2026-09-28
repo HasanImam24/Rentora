@@ -37,3 +37,24 @@ export const getComplaintById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteComplaint = async (req, res, next) => {
+  try {
+    const { Complaint } = await import('../models/Complaint.js');
+    const complaint = await Complaint.findById(req.params.id);
+    
+    if (!complaint) {
+      return res.status(404).json({ success: false, message: 'Complaint not found' });
+    }
+    
+    // Only the user who created it can delete it (or an admin)
+    if (complaint.userId.toString() !== req.user._id.toString() && req.user.role !== 'ADMIN') {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this complaint' });
+    }
+    
+    await Complaint.findByIdAndDelete(req.params.id);
+    sendSuccess(res, 200, 'Complaint deleted successfully');
+  } catch (error) {
+    next(error);
+  }
+};

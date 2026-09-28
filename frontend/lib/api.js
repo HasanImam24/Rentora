@@ -77,6 +77,7 @@ export const complaints = {
   create: (data) => api.post('/complaints', data),
   getAll: () => api.get('/complaints'),
   getById: (id) => api.get(`/complaints/${id}`),
+  delete: (id) => api.delete(`/complaints/${id}`),
 };
 
 export const admin = {

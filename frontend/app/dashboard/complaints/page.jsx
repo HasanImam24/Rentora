@@ -57,6 +57,17 @@ export default function MyComplaintsPage() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this complaint?')) return;
+    try {
+      await complaints.delete(id);
+      toast.success('Complaint deleted successfully');
+      fetchComplaints();
+    } catch (error) {
+      toast.error('Failed to delete complaint');
+    }
+  };
+
   const columns = [
     { header: 'Subject', accessor: 'subject', render: (row) => <span className="font-medium">{row.subject}</span> },
     { header: 'Priority', accessor: 'priority', render: (row) => <span className="capitalize">{row.priority}</span> },
@@ -66,6 +77,11 @@ export default function MyComplaintsPage() {
       <div className="max-w-xs truncate text-gray-500">
         {row.adminResponse || 'No response yet'}
       </div>
+    )},
+    { header: 'Actions', accessor: 'actions', render: (row) => (
+      (row.status === 'RESOLVED' || row.status === 'CLOSED') ? (
+        <Button size="sm" variant="danger" onClick={() => handleDelete(row._id)}>Delete</Button>
+      ) : <span className="text-gray-400 text-sm">N/A</span>
     )}
   ];
 
