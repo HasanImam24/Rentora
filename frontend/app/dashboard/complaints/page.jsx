@@ -20,7 +20,7 @@ export default function MyComplaintsPage() {
   const [formData, setFormData] = useState({
     subject: '',
     description: '',
-    priority: 'low'
+    priority: 'LOW'
   });
 
   const fetchComplaints = async () => {
@@ -48,7 +48,7 @@ export default function MyComplaintsPage() {
       await complaints.create(formData);
       toast.success('Complaint submitted');
       setIsModalOpen(false);
-      setFormData({ subject: '', description: '', priority: 'low' });
+      setFormData({ subject: '', description: '', priority: 'LOW' });
       fetchComplaints();
     } catch (error) {
       toast.error('Failed to submit complaint');
@@ -98,9 +98,9 @@ export default function MyComplaintsPage() {
               value={formData.priority}
               onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
             </select>
           </div>
           <Input
